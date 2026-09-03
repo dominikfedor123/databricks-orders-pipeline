@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  basic-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required files exist
+        run: |
+          test -f notebooks/00_LANDING_ORDERS.ipynb
+          test -f notebooks/01_BRONZE_ORDERS.ipynb
+          test -f notebooks/02_SILVER_ORDERS.ipynb
+          test -f notebooks/03_GOLD_ORDERS.ipynb
+
+      - name: Check currency support exists
+        run: |
+          grep -q "currency" notebooks/00_LANDING_ORDERS.ipynb
+          grep -q "currency" notebooks/01_BRONZE_ORDERS.ipynb
+          grep -q "currency" notebooks/02_SILVER_ORDERS.ipynb
+          grep -q "currency" notebooks/03_GOLD_ORDERS.ipynb
