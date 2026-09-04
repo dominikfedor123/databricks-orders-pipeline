@@ -25,8 +25,12 @@ targets:
 
     workspace:
       host: https://dbc-79815d94-7d99.cloud.databricks.com
+      root_path: /Workspace/Users/dominikfedor17@gmail.com/.bundle/${bundle.name}/${bundle.target}
 
     resources:
       jobs:
         orders_pipeline_job:
           name: "[PROD] orders_pipeline_job"
+
+    run_as:
+      user_name: dominikfedor17@gmail.com
