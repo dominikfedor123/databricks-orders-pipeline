@@ -1,27 +1,32 @@
-# Declarative Automation Bundle configuration, more info here: https://docs.databricks.com/en/dev-tools/bundles/settings.html
 bundle:
-  name: "orders-pipeline"
+  name: orders-pipeline
 
 include:
   - resources/*.yml
   - resources/*/*.yml
 
 targets:
-  # The 'dev' target, for development purposes. This target is the default.
+
   dev:
     mode: development
     default: true
+
     workspace:
       host: https://dbc-79815d94-7d99.cloud.databricks.com
 
-  # The 'prod' target, used for production deployment.
+    resources:
+      jobs:
+        orders_pipeline_job:
+          name: "[DEV] orders_pipeline_job"
+
+
   prod:
     mode: production
+
     workspace:
       host: https://dbc-79815d94-7d99.cloud.databricks.com
-      # We always use /Users/dominikfedor17@gmail.com for all resources to make sure we only have a single copy.
-      root_path: /Users/dominikfedor17@gmail.com/.bundle/${bundle.name}/${bundle.target}
-    run_as:
-      # This runs as dominikfedor17@gmail.com in production. We could also use a service principal here,
-      # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
-      user_name: dominikfedor17@gmail.com
+
+    resources:
+      jobs:
+        orders_pipeline_job:
+          name: "[PROD] orders_pipeline_job"
