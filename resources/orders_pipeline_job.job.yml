@@ -17,14 +17,14 @@ resources:
           notebook_task:
             notebook_path: ../notebooks/01_BRONZE_ORDERS.ipynb
 
-        - task_key: silver
+        - task_key: dbt_transformations
           depends_on:
             - task_key: bronze
-          notebook_task:
-            notebook_path: ../notebooks/02_SILVER_ORDERS.ipynb
 
-        - task_key: gold
-          depends_on:
-            - task_key: silver
-          notebook_task:
-            notebook_path: ../notebooks/03_GOLD_ORDERS.ipynb
+          dbt_task:
+            project_directory: ../orders_dbt
+            commands:
+              - "dbt build --select +fct_orders_incremental"
+            warehouse_id: cfd3eec10376b45e
+            catalog: workspace
+            schema: dbt_dev
