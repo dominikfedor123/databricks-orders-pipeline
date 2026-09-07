@@ -1,1 +1,15 @@
-.databricks/
+# dbt generated files
+orders_dbt/target/
+orders_dbt/logs/
+orders_dbt/dbt_packages/
+
+# dbt local credentials - never commit
+orders_dbt/profiles.yml
+profiles.yml
+
+# local secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
