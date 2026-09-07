@@ -21,6 +21,8 @@ resources:
           depends_on:
             - task_key: bronze
 
+          environment_key: dbt_env
+
           dbt_task:
             project_directory: ../orders_dbt
             commands:
@@ -28,3 +30,10 @@ resources:
             warehouse_id: cfd3eec10376b45e
             catalog: workspace
             schema: dbt_dev
+
+      environments:
+        - environment_key: dbt_env
+          spec:
+            environment_version: "4"
+            dependencies:
+              - "dbt-databricks==1.12.5"
