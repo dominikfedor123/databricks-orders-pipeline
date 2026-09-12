@@ -6,15 +6,32 @@ select
 
     case
         when amount is null then null
-        when upper(trim(amount)) = 'N/A' then null
-        when trim(amount) rlike '^-?[0-9]+(\\.[0-9]+)?([ ]+[A-Za-z]+)?$'
+
+        when upper(trim(amount)) = 'N/A'
+            then null
+
+        when trim(amount)
+             rlike '^-?[0-9]+(\\.[0-9]+)?([ ]+[A-Za-z]+)?$'
             then try_cast(
                 regexp_extract(
                     trim(amount),
                     '^(-?[0-9]+(?:\\.[0-9]+)?)',
                     1
-                ) as decimal(10,2)
+                )
+                as decimal(10,2)
             )
+
+        when trim(amount)
+             rlike '^[A-Za-z]+[ ]+-?[0-9]+(\\.[0-9]+)?$'
+            then try_cast(
+                regexp_extract(
+                    trim(amount),
+                    '(-?[0-9]+(?:\\.[0-9]+)?)$',
+                    1
+                )
+                as decimal(10,2)
+            )
+
         else null
     end as amount,
 
@@ -28,6 +45,8 @@ select
         try_to_date(trim(order_date), 'dd-MM-yyyy'),
         try_to_date(trim(order_date), 'yyyy/MM/dd')
     ) as order_date,
+
+    currency as currency_raw,
 
     case
         when currency is null then null
@@ -49,4 +68,3 @@ select
     load_timestamp
 
 from {{ source('bronze', 'orders') }}
-

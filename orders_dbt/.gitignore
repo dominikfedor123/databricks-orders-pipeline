@@ -1,5 +1,16 @@
-
-target/
-dbt_packages/
+# Logs
 logs/
+orders_dbt/logs/
+
+# dbt generated files
+orders_dbt/target/
+orders_dbt/dbt_packages/
+
+# credentials / local secrets
+orders_dbt/profiles.yml
+profiles.yml
 .env
+
+# Python
+__pycache__/
+*.pyc

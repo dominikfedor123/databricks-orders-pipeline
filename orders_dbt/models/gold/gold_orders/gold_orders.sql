@@ -22,7 +22,7 @@ with valid_orders as (
         source_file,
         load_timestamp
 
-    from {{ ref('int_orders_validated') }}
+    from {{ ref('core_orders') }}
 
     where dq_overall = 1
 
@@ -40,7 +40,7 @@ with valid_orders as (
 
 ),
 
-latest_order_version as (
+latest_version as (
 
     select *
 
@@ -56,4 +56,4 @@ latest_order_version as (
 )
 
 select *
-from latest_order_version
+from latest_version
