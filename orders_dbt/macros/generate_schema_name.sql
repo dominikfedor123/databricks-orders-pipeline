@@ -1,10 +1,12 @@
 {% macro generate_schema_name(custom_schema_name, node) -%}
 
-    {%- if target.name == 'dominik' -%}
+    {%- set environment = var('deployment_env', target.name) -%}
+
+    {%- if environment == 'dominik' -%}
 
         {{ target.schema }}
 
-    {%- elif target.name == 'dev' -%}
+    {%- elif environment == 'dev' -%}
 
         {%- if custom_schema_name is not none -%}
             {{ custom_schema_name | trim }}_dev
@@ -12,7 +14,7 @@
             {{ target.schema }}
         {%- endif -%}
 
-    {%- elif target.name == 'prod' -%}
+    {%- elif environment == 'prod' -%}
 
         {%- if custom_schema_name is not none -%}
             {{ custom_schema_name | trim }}_prod
