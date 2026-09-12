@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: fct_orders
-    description: "Validated business-ready orders"
+  - name: export_orders_completed
+    description: "Completed orders prepared for downstream export."
 
     columns:
       - name: order_id
@@ -14,8 +14,8 @@ models:
         data_tests:
           - not_null
 
-      - name: currency
+      - name: status
         data_tests:
           - accepted_values:
               arguments:
-                values: ['EUR', 'USD', 'GBP']
+                values: ['COMPLETED']

@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: gold_orders
+    description: "Business-ready current-state orders."
+
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        data_tests:
+          - not_null
+
+      - name: currency
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['EUR', 'USD', 'GBP']

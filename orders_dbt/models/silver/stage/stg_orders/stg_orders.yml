@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: bronze
+    catalog: workspace
+    schema: bronze
+
+    tables:
+      - name: orders
+
+models:
+  - name: stg_orders
+    description: "Cleaned and standardized orders from Bronze."
+
+    columns:
+      - name: event_id
+        data_tests:
+          - not_null
+
+      - name: batch_id
+        data_tests:
+          - not_null
+
+      - name: source_file
+        data_tests:
+          - not_null
