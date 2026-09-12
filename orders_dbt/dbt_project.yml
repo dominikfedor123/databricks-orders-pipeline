@@ -16,4 +16,16 @@ clean-targets:
 
 models:
   orders_dbt:
-    +materialized: view
+
+    silver:
+      stage:
+        +schema: silver_stage
+
+      core:
+        +schema: silver_core
+
+    gold:
+      +schema: gold
+
+    export:
+      +schema: export
