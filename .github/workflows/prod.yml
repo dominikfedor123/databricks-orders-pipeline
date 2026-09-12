@@ -1,12 +1,10 @@
-name: CD
+name: Deploy PROD
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  deploy-dev:
+  deploy-prod:
     runs-on: ubuntu-latest
 
     env:
@@ -28,31 +26,31 @@ jobs:
       - name: Install dbt Databricks
         run: pip install dbt-databricks==1.12.5
 
-      - name: Validate Databricks bundle
-        run: databricks bundle validate -t dev
+      - name: Validate PROD bundle
+        run: databricks bundle validate -t prod
 
-      - name: Deploy Databricks bundle to DEV
-        run: databricks bundle deploy -t dev
+      - name: Deploy Databricks bundle to PROD
+        run: databricks bundle deploy -t prod
 
-      - name: Create dbt DEV profile
+      - name: Create dbt PROD profile
         run: |
           mkdir -p ~/.dbt
 
           cat > ~/.dbt/profiles.yml <<EOF
           orders_dbt:
-            target: dev
+            target: prod
 
             outputs:
-              dev:
+              prod:
                 type: databricks
                 catalog: workspace
-                schema: dev
+                schema: prod
                 host: ${DATABRICKS_HOST}
                 http_path: /sql/1.0/warehouses/cfd3eec10376b45e
                 token: ${DATABRICKS_TOKEN}
                 threads: 4
           EOF
 
-      - name: Build dbt models in DEV
+      - name: Build dbt models in PROD
         working-directory: orders_dbt
-        run: dbt build --target dev
+        run: dbt build --target prod
