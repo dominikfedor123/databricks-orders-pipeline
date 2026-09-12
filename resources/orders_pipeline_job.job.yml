@@ -7,16 +7,27 @@ resources:
         enabled: true
 
       tasks:
+        # =====================================================
+        # 1. LANDING
+        # =====================================================
         - task_key: landing
           notebook_task:
             notebook_path: ../notebooks/00_LANDING_ORDERS.ipynb
 
+        # =====================================================
+        # 2. BRONZE
+        # =====================================================
         - task_key: bronze
           depends_on:
             - task_key: landing
+
           notebook_task:
             notebook_path: ../notebooks/01_BRONZE_ORDERS.ipynb
 
+        # =====================================================
+        # 3. DBT TRANSFORMATIONS
+        # Silver Stage -> Silver Core -> Gold -> Export
+        # =====================================================
         - task_key: dbt_transformations
           depends_on:
             - task_key: bronze
@@ -30,6 +41,33 @@ resources:
             warehouse_id: cfd3eec10376b45e
             catalog: workspace
 
+        # =====================================================
+        # 4A. SUCCESS AUDIT CLOSE
+        # Runs only when dbt_transformations succeeds
+        # =====================================================
+        - task_key: close_audit
+          depends_on:
+            - task_key: dbt_transformations
+
+          notebook_task:
+            notebook_path: ../notebooks/04_CLOSE_AUDIT.ipynb
+
+        # =====================================================
+        # 4B. FAILURE AUDIT CLOSE
+        # Runs when dbt_transformations fails
+        # =====================================================
+        - task_key: close_audit_failed
+          depends_on:
+            - task_key: dbt_transformations
+
+          run_if: AT_LEAST_ONE_FAILED
+
+          notebook_task:
+            notebook_path: ../notebooks/05_CLOSE_AUDIT_FAILED.ipynb
+
+      # =======================================================
+      # DBT ENVIRONMENT
+      # =======================================================
       environments:
         - environment_key: dbt_env
           spec:
