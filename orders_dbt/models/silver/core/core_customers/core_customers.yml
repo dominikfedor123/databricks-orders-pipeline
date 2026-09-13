@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: core_customers
+    description: "Validated and deduplicated customer records."
+
+    columns:
+      - name: event_id
+        data_tests:
+          - not_null
+
+      - name: dq_overall
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]

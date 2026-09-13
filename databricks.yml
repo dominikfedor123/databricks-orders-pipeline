@@ -19,6 +19,9 @@ targets:
         orders_pipeline_job:
           name: "[DEV] orders_pipeline_job"
 
+        customers_pipeline_job:
+          name: "[DEV] customers_pipeline_job"
+
 
   prod:
     mode: production
@@ -31,6 +34,9 @@ targets:
       jobs:
         orders_pipeline_job:
           name: "[PROD] orders_pipeline_job"
+
+        customers_pipeline_job:
+          name: "[PROD] customers_pipeline_job"
 
     run_as:
       user_name: dominikfedor17@gmail.com
