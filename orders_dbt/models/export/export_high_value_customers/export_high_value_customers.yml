@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: export_high_value_customers
+    description: "Customer segmentation based on total order value."
+
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_segment
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['HIGH']
