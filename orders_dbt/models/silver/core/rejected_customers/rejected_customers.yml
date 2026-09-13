@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: rejected_customers
+    description: "Customer records rejected by Silver Core DQ rules."
+
+    columns:
+      - name: rejection_reason
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - INVALID_CUSTOMER_ID
+                  - INVALID_EMAIL
+                  - INVALID_COUNTRY
+                  - INVALID_CUSTOMER_TYPE
+                  - DQ_FAILED
+
+      - name: rejected_at
+        data_tests:
+          - not_null

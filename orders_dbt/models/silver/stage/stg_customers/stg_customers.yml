@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: bronze
+    catalog: workspace
+    schema: bronze
+
+    tables:
+      - name: customers
+
+models:
+  - name: stg_customers
+    description: "Cleaned and standardized customers from Bronze."
+
+    columns:
+      - name: event_id
+        data_tests:
+          - not_null
+
+      - name: batch_id
+        data_tests:
+          - not_null
+
+      - name: customer_id
+        data_tests:
+          - not_null

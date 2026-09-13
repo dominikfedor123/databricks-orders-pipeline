@@ -1,0 +1,39 @@
+resources:
+  jobs:
+    customers_pipeline_job:
+      name: customers_pipeline_job
+
+      queue:
+        enabled: true
+
+      tasks:
+        - task_key: landing_customers
+          notebook_task:
+            notebook_path: ../notebooks/10_LANDING_CUSTOMERS.ipynb
+
+        - task_key: bronze_customers
+          depends_on:
+            - task_key: landing_customers
+
+          notebook_task:
+            notebook_path: ../notebooks/11_BRONZE_CUSTOMERS.ipynb
+
+        - task_key: dbt_customers
+          depends_on:
+            - task_key: bronze_customers
+
+          environment_key: dbt_env
+
+          dbt_task:
+            project_directory: ../orders_dbt
+            commands:
+              - 'dbt build --select tag:customers_pipeline --vars ''{"deployment_env": "${bundle.target}"}'''
+            warehouse_id: cfd3eec10376b45e
+            catalog: workspace
+
+      environments:
+        - environment_key: dbt_env
+          spec:
+            environment_version: "4"
+            dependencies:
+              - "dbt-databricks==1.12.5"

@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: gold_customers_scd1
+    description: "Current valid customer master containing the latest version of each customer."
+
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: email
+        data_tests:
+          - not_null
+
+      - name: customer_type
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['STANDARD', 'PREMIUM', 'VIP', 'RETAIL', 'BUSINESS']
+
+      - name: last_updated
+        data_tests:
+          - not_null
