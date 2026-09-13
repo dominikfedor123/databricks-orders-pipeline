@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: gold_customer_order_summary
+    description: "Customer-level aggregation derived from gold_orders."
+
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: total_orders
+        data_tests:
+          - not_null
+
+      - name: total_amount
+        data_tests:
+          - not_null
