@@ -1,3 +1,9 @@
+{{
+    config(
+        alias='customer_order_summary'
+    )
+}}
+
 select
     customer_id,
 
@@ -12,16 +18,14 @@ select
 
     sum(
         case
-            when status = 'PENDING' then 1
+            when status = 'CANCELLED' then 1
             else 0
         end
-    ) as pending_orders,
+    ) as cancelled_orders,
 
     sum(amount) as total_amount,
 
     avg(amount) as avg_order_amount,
-
-    max(order_date) as last_order_date,
 
     max(last_updated) as last_order_timestamp
 
