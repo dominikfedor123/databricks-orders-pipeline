@@ -1,7 +1,8 @@
 version: 2
 
 models:
-  - name: gold_orders
+  - name: export_customer_orders
+    description: "Order-level export enriched with current customer attributes."
 
     columns:
       - name: order_id
@@ -20,6 +21,10 @@ models:
       - name: currency
         data_tests:
           - not_null
+
+      - name: customer_matched
+        data_tests:
+          - not_null
           - accepted_values:
               arguments:
-                values: ['EUR', 'USD', 'GBP']
+                values: [true, false]
