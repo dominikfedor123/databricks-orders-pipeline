@@ -1,0 +1,24 @@
+resources:
+  jobs:
+    customer_orders_export_job:
+      name: customer_orders_export_job
+
+      queue:
+        enabled: true
+
+      tasks:
+        - task_key: build_customer_orders_export
+          environment_key: dbt_env
+          dbt_task:
+            project_directory: ../orders_dbt
+            commands:
+              - 'dbt build --select export_customer_orders --vars ''{"deployment_env": "${bundle.target}"}'''
+            warehouse_id: cfd3eec10376b45e
+            catalog: workspace
+
+      environments:
+        - environment_key: dbt_env
+          spec:
+            environment_version: "4"
+            dependencies:
+              - "dbt-databricks==1.12.5"
