@@ -4,8 +4,6 @@ with dq_flags as (
         *,
 
         case
-            when amount_raw is null then 1
-            when upper(trim(amount_raw)) = 'N/A' then 1
             when amount is not null then 1
             else 0
         end as dq_amount,
@@ -22,7 +20,6 @@ with dq_flags as (
         end as dq_order_date,
 
         case
-            when currency is null then 1
             when currency in ('EUR', 'USD', 'GBP') then 1
             else 0
         end as dq_currency
