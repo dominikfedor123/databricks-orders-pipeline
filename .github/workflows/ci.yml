@@ -65,6 +65,7 @@ jobs:
           EOF
 
       - name: Install dbt dependencies
+        working-directory: orders_dbt
         run: dbt deps
 
       - name: Validate dbt project
