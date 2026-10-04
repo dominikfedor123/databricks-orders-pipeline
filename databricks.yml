@@ -28,6 +28,11 @@ targets:
         master_pipeline_job:
           name: "[DEV] master_pipeline_job"
 
+        orders_dbt_job:
+          name: "[DEV] orders_dbt_job"
+
+        customers_dbt_job:
+          name: "[DEV] customers_dbt_job"
 
   prod:
     mode: production
@@ -49,6 +54,12 @@ targets:
         
         master_pipeline_job:
           name: "[PROD] master_pipeline_job"
+
+        orders_dbt_job:
+          name: "[PROD] orders_dbt_job"
+
+        customers_dbt_job:
+          name: "[PROD] customers_dbt_job"
 
     run_as:
       user_name: dominikfedor17@gmail.com

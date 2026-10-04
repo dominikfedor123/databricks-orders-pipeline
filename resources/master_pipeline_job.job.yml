@@ -7,18 +7,17 @@ resources:
         enabled: true
 
       tasks:
-
-        - task_key: run_orders_pipeline
+        - task_key: run_orders_dbt
           run_job_task:
-            job_id: ${resources.jobs.orders_pipeline_job.id}
+            job_id: ${resources.jobs.orders_dbt_job.id}
 
-        - task_key: run_customers_pipeline
+        - task_key: run_customers_dbt
           run_job_task:
-            job_id: ${resources.jobs.customers_pipeline_job.id}
+            job_id: ${resources.jobs.customers_dbt_job.id}
 
         - task_key: run_customer_orders_export
           depends_on:
-            - task_key: run_orders_pipeline
-            - task_key: run_customers_pipeline
+            - task_key: run_orders_dbt
+            - task_key: run_customers_dbt
           run_job_task:
             job_id: ${resources.jobs.customer_orders_export_job.id}

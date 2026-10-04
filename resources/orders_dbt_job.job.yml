@@ -1,0 +1,25 @@
+resources:
+  jobs:
+    orders_dbt_job:
+      name: orders_dbt_job
+
+      queue:
+        enabled: true
+
+      tasks:
+        - task_key: dbt_orders
+          environment_key: dbt_env
+
+          dbt_task:
+            project_directory: ../orders_dbt
+            commands:
+              - 'dbt build --select +gold_orders --vars ''{"deployment_env": "${bundle.target}"}'''
+            warehouse_id: cfd3eec10376b45e
+            catalog: workspace
+
+      environments:
+        - environment_key: dbt_env
+          spec:
+            environment_version: "4"
+            dependencies:
+              - "dbt-databricks==1.12.5"
