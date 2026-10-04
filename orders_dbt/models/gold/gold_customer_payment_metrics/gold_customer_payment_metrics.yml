@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: gold_customer_payment_metrics
+    description: "Customer payment metrics based on gold_orders model, grain customer_id + payment_method"
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_id
+            - payment_method
+
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+
+      - name: payment_method
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['PAYPAL', 'CARD']
+
+      - name: order_cnt
+        data_tests:
+          - not_null
+
+      - name: total_amount
+        data_tests:
+          - not_null
+
+      - name: avg_amount
+        data_tests:
+          - not_null
+
+      - name: last_order
+        data_tests:
+          - not_null
+
+      - name: payment_method_share
+        data_tests:
+          - not_null
