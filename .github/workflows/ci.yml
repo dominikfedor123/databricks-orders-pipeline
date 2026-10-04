@@ -64,6 +64,9 @@ jobs:
                 threads: 4
           EOF
 
+      - name: Install dbt dependencies
+        run: dbt deps
+
       - name: Validate dbt project
         working-directory: orders_dbt
         run: dbt parse --target dev
